@@ -6,7 +6,7 @@ from .commit_save_tree import commit_save_tree
 @on_command('save_tree', aliases=('救树', '申请救树', '别慌！我来也！'))
 async def save_tree(session: CommandSession):
     team_info = session.get(
-        'team_info', prompt='请再次检查自己的队伍输入是否正确，并输入您的救树队伍阵容（队伍各成员名称请以空格隔开）:')
+        'team_info', prompt='请再次确认阵容输入正确，并输入您的救树队伍阵容（队伍各成员名称请以空格隔开）:')
 
     isSaveCan, save_tree_list = await commit_save_tree(session.event.sender, team_info)
 
