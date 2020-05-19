@@ -19,7 +19,7 @@ def team_info_append(user_id: int, user_nickname: str, team_info: str):
             xlsHandle.xls_create_user(user_nickname)
 
         GlobalState.atking_list[(user_id, user_nickname)] = [
-            team_info, 1, GlobalState.current_boss]
+            team_info, GlobalState.current_boss]
         return True
     else:
         return False
@@ -34,7 +34,7 @@ def damage_append(user_id: int, user_nickname: str, damage: int):
         # 如果用户为 救树者
         if key in GlobalState.save_tree_list:
             # 如果救树成功，则清空全部名单
-            if damage > GlobalState.boss_list[GlobalState.atking_list[key][2]][1]:
+            if damage > GlobalState.boss_list[GlobalState.atking_list[key][1]][1]:
                 GlobalState.save_tree_list.clear()
                 GlobalState.on_tree_list.clear()
                 GlobalState.atking_list.clear()
@@ -62,9 +62,10 @@ def on_tree_append(user_id: int, user_nickname: str):
     # 如果用户位于攻打者名单中 且 没有挂树
     if GlobalState.atking_list.get(key, -1) != -1 \
             and key not in GlobalState.on_tree_list:
-
+        # 在救树名单中加入用户
         GlobalState.on_tree_list.append(key)
-
+        # 该用户 救树次数 加1
+        xlsHandle.xls_on_tree(key[1])
         return True
     else:
         return False
@@ -78,9 +79,10 @@ def save_tree_append(user_id: int, user_nickname: str, team_info: str):
             and key not in GlobalState.on_tree_list \
             and key not in GlobalState.save_tree_list:
 
-        GlobalState.atking_list[key] = [
-            team_info, 0, GlobalState.current_boss]
+        # 在攻打者名单 和 救树名单中加入用户
+        GlobalState.atking_list[key] = [team_info, GlobalState.current_boss]
         GlobalState.save_tree_list.append(key)
+        # 该用户 救树次数 加1
         xlsHandle.xls_save_tree(key[1])
         return True
     else:
@@ -100,6 +102,7 @@ def get_current_save_tree_list():
 
 
 def get_names_list(ps: list):
+    # 用来获取只含有名字的列表
     temp_pns = []
     for p in ps:
         temp_pns.append(p[1])
