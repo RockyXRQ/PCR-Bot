@@ -14,7 +14,7 @@ async def atk_apply(session: CommandSession):
     if is_atk_append_success:
         await session.send('出刀申请成功！\n您的出刀阵容为：\n' + str(team_info) + '\n当前攻打中人员名单为：\n' + str(list(atking_list)))
     else:
-        await session.send('出刀申请失败！请稍后再试或联络Bot管理者')
+        await session.send('出刀申请失败！当前有人救树中！请稍后申请！')
 
 # atk_apply.args_praser 将该函数声明为 atk_apply 命令的参数解析器
 # 命令解析器用于将用户输入的参数解析成命令真正需要的数据

@@ -5,7 +5,7 @@ from .commit_atk_damage import commit_atk_damage
 
 @on_command('atk_finish', aliases=('完成', '出刀完成', '完成出刀', '出刀完毕'))
 async def atk_finish(session: CommandSession):
-    damage = session.get('damage', prompt='请输入您的原始出刀伤害（不是分数）：')
+    damage = session.get('damage', prompt='请输入您的分数（不是原始伤害）：')
 
     isDamageAppend = await commit_atk_damage(session.event.sender, damage)
 
