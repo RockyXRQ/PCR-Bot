@@ -68,8 +68,13 @@ def xls_get_boss_list():
 def xls_update_boss_list(boss: int, damage: int):
     ws = xlsHandle.wb['Boss']
     HP = ws['B'+str(boss)].value
-    last = HP - damage
-    ws['B'+str(boss)] = max(0, last)
+
+    if damage <= ws['B'+str(boss)]:
+        ws['B'+str(boss)] = max(0, HP - damage)
+    else:
+        remain = damage - HP
+        ws['B'+str(boss)] = 0
+        ws['B'+str((boss % 5) + 1)] -= remain
 
 
 def xls_restore_boss_list():

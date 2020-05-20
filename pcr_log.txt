@@ -1,5 +1,0 @@
-[Sueiox] sheet新建
-[Sueiox] 加入攻打者名单
-[Sueiox] Boss血量更新
-[Sueiox] 于攻打者名单中除名
-[Sueiox] 更新程序内boss血量
