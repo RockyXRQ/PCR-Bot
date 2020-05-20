@@ -72,11 +72,6 @@ def damage_append(user_id: int, user_nickname: str, damage: int):
         xlsHandle.xls_damage_append(
             user_nickname, GlobalState.atking_list[key][0], damage, GlobalState.current_day, isKill)
 
-        # 在攻打者名单中去除该用户
-        GlobalState.atking_list.pop(key, 0)
-        with open('pcr_log.txt', 'a', encoding='utf-8') as log:
-            log.write('[' + user_nickname + ']'+' 于攻打者名单中除名\n')
-
         # 如果用户为 救树者
         if key in GlobalState.save_tree_list:
             # 如果救树成功，则清空全部名单
@@ -88,6 +83,12 @@ def damage_append(user_id: int, user_nickname: str, damage: int):
             else:
                 GlobalState.save_tree_list.clear()
 
+        # 在攻打者名单中去除该用户
+        GlobalState.atking_list.pop(key, 0)
+        with open('pcr_log.txt', 'a', encoding='utf-8') as log:
+            log.write('[' + user_nickname + ']'+' 于攻打者名单中除名\n')
+
+        # 更新程序内的Boss血量
         GlobalState.boss_list = xlsHandle.xls_get_boss_list()
         with open('pcr_log.txt', 'a', encoding='utf-8') as log:
             log.write('[' + user_nickname + ']'+' 更新程序内boss血量\n')
