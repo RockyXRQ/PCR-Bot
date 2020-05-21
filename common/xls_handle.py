@@ -4,12 +4,12 @@ from openpyxl.styles import Color, Font
 
 
 class xlsHandle:
-    wb = load_workbook(filename='影都第二次公会战数据.xlsx')
+    wb = load_workbook(filename='PCR_Bot_Template.xlsx')
 
 
 def wb_update():
-    xlsHandle.wb.save('影都第二次公会战数据.xlsx')
-    xlsHandle.wb = load_workbook(filename='影都第二次公会战数据.xlsx')
+    xlsHandle.wb.save('PCR_Bot_Template.xlsx')
+    xlsHandle.wb = load_workbook(filename='PCR_Bot_Template.xlsx')
 
 
 def xls_create_user(user_nickname: str):
