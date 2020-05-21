@@ -205,7 +205,7 @@ PCR_Ro_Bot自带数据记录，整理，与导出的功能，机器人运行之�
 
 该机器人拥有日志系统，机器人运行之后，您可以在程序根目录下 pcr_log.txt 文件，并通过其查看日志，监控机器人的运行情况。
 
-![log](https://raw.githubusercontent.com/RockyXRQ/PCR_Ro_Bot/master/assets/log.png)
+![log](https://raw.githubusercontent.com/RockyXRQ/PCR_Ro_Bot/master/assets/log.png?token=AIKEPB6ESEJ2DPI5VYWEMEK6YZDSK)
 
 ## 维护者
 
