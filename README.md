@@ -138,9 +138,9 @@ python bot.py
 
 正常情况下，您将观察到以下信息：
 
-![VSC](C:\Personal\University\Code\PY\PCR_Bot\assets\py_info.png)
+![VSC](https://raw.githubusercontent.com/RockyXRQ/PCR_Ro_Bot/master/assets/py_info.png)
 
-![CQHTTP](C:\Personal\University\Code\PY\PCR_Bot\assets\cqhttp_info.png)
+![CQHTTP](https://raw.githubusercontent.com/RockyXRQ/PCR_Ro_Bot/master/assets/cqhttp_info.png)
 
 则PCR_Ro_Bot至此已经成功运行。
 
@@ -148,7 +148,7 @@ python bot.py
 
 ### 指令流程图
 
-![Flow_Chart](C:\Personal\University\Code\PY\PCR_Bot\assets\PCR_Bot_Command_Flow.png)
+![Flow_Chart](https://raw.githubusercontent.com/RockyXRQ/PCR_Ro_Bot/master/assets/PCR_Bot_Command_Flow.png)
 
 ### 各指令介绍
 
@@ -205,7 +205,7 @@ PCR_Ro_Bot自带数据记录，整理，与导出的功能，机器人运行之�
 
 该机器人拥有日志系统，机器人运行之后，您可以在程序根目录下 pcr_log.txt 文件，并通过其查看日志，监控机器人的运行情况。
 
-![log](C:\Personal\University\Code\PY\PCR_Bot\assets\log.png)
+![log](https://raw.githubusercontent.com/RockyXRQ/PCR_Ro_Bot/master/assets/log.png)
 
 ## 维护者
 
