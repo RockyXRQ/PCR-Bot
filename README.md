@@ -138,9 +138,9 @@ python bot.py
 
 正常情况下，您将观察到以下信息：
 
-![VSC](https://raw.githubusercontent.com/RockyXRQ/PCR_Ro_Bot/master/assets/py_info.png?token=AIKEPB6ESEJ2DPI5VYWEMEK6YZDSK)
+![VSC](https://raw.githubusercontent.com/RockyXRQ/PCR_Ro_Bot/master/assets/py_info.png?token=AIKEPB5653SDHN5PXKLPYOS6YZEA4)
 
-![CQHTTP](https://raw.githubusercontent.com/RockyXRQ/PCR_Ro_Bot/master/assets/cqhttp_info.png?token=AIKEPB6ESEJ2DPI5VYWEMEK6YZDSK)
+![CQHTTP](https://raw.githubusercontent.com/RockyXRQ/PCR_Ro_Bot/master/assets/cqhttp_info.png?token=AIKEPB6VLHQ44OUTB4VXN2S6YZD7Q)
 
 则PCR_Ro_Bot至此已经成功运行。
 
@@ -148,7 +148,7 @@ python bot.py
 
 ### 指令流程图
 
-![Flow_Chart](https://raw.githubusercontent.com/RockyXRQ/PCR_Ro_Bot/master/assets/PCR_Bot_Command_Flow.png?token=AIKEPB6ESEJ2DPI5VYWEMEK6YZDSK)
+![Flow_Chart](https://raw.githubusercontent.com/RockyXRQ/PCR_Ro_Bot/master/assets/PCR_Bot_Command_Flow.png?token=AIKEPB3UNCUVFPS6TMLN4YK6YZD4G)
 
 ### 各指令介绍
 
