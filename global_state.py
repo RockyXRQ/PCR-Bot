@@ -82,7 +82,7 @@ def damage_append(user_id: int, user_nickname: str, damage: int):
                 5 if GlobalState.current_boss > 5 else 0)]
             point2 = remain * GlobalState.point_rate_list[GlobalState.atking_list[key][1] % 5 + (
                 5 if GlobalState.current_boss > 5 else 0)]
-            point = point1 + point2
+            point = int(point1 + point2)
         # 在Excel中记录伤害
         xlsHandle.xls_damage_append(
             user_nickname, GlobalState.atking_list[key][0], point, GlobalState.current_day, isKill)
