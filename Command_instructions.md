@@ -2,7 +2,7 @@
 
 ## 1. 指令使用流程图
 
-![PCR_Bot_Command_Flow](C:\Personal\University\Code\PY\PCR_Bot\PCR_Bot_Command_Flow.png)
+![PCR_Bot_Command_Flow](https://raw.githubusercontent.com/RockyXRQ/PCR_Ro_Bot/master/assets/PCR_Bot_Command_Flow.png?token=AIKEPB3UNCUVFPS6TMLN4YK6YZD4G)
 
 ## 2. 指令介绍
 
