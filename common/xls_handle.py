@@ -20,29 +20,60 @@ def xls_create_user(user_nickname: str):
     ws['B1'] = user_nickname
 
 
-def xls_damage_append(user_nickname: str, team_info: str, damage: int, day: int, isKill: bool):
-    ft = Font(color=colors.RED)
+def xls_damage_append(user_nickname: str, team_info: str, damage: int, day: int, boss: int):
+    ws_boss = xlsHandle.wb['Boss']
+    ws_user = xlsHandle.wb[user_nickname]
 
     # 为去冗余定义信息填入函数
     def inner_damage_append(team_row: int, damage_row: int):
-        ws.cell(team_row, 2+day).value = team_info
-        ws.cell(damage_row, 2+day).value = damage
+        isKill = False
+        point = 0
+        # 填入队伍信息
+        ws_user.cell(team_row, 2+day).value = team_info
+
+        # 如果不足以击杀Boss
+        if damage <= ws_boss['B'+str(boss)].value:
+            # 计算得分
+            point = damage * ws_boss['C'+str(boss)].value
+            # 更新Boss血量
+            ws_boss['B'+str(boss)].value -= damage
+
+        # 如果足以击杀Boss
+        else:
+            # 击杀状态为真
+            isKill = True
+
+            # 计算得分
+            remain = damage - ws_boss['B'+str(boss)].value
+
+            pointA = ws_boss['B'+str(boss)].value * \
+                ws_boss['C'+str(boss)].value
+            pointB = remain * ws_boss['C'+str(boss+1)].value
+            point = pointA + pointB
+
+            # 更新Boss血量
+            ws_boss['B'+str(boss)].value = 0
+            ws_boss['B'+str((boss+1))].value -= remain
+        # 更新用户数据
+        ws_user.cell(damage_row, 2+day).value = point
+        # 若击杀则数据为红
         if isKill:
-            ws.cell(damage_row, 2+day).font = ft
+            ws_user.cell(damage_row, 2+day).font = Font(color=colors.RED)
+
+        # 更新表格数据
+        wb_update()
+        return isKill
 
     # 获取对应用户的sheet
     ws = xlsHandle.wb[user_nickname]
 
     # 依次查看第一、二、三刀否存在数据 没有则填入
-    if not ws.cell(4, 2+day).value:
-        inner_damage_append(4, 5)
+    if not ws_user.cell(4, 2+day).value:
+        return inner_damage_append(4, 5)
     elif not ws.cell(6, 2+day).value:
-        inner_damage_append(6, 7)
+        return inner_damage_append(6, 7)
     else:
-        inner_damage_append(8, 9)
-
-    # 更新表格数据
-    wb_update()
+        return inner_damage_append(8, 9)
 
 
 def xls_on_tree(user_nickname: str):
@@ -60,39 +91,3 @@ def xls_save_tree(user_nickname: str):
 def xls_get_sheets():
     # 返回 sheet名称列表
     return xlsHandle.wb.sheetnames
-
-
-def xls_get_boss_list():
-    # 返回Boss名称与血量组成的数组
-    ws = xlsHandle.wb['Boss']
-    return [
-        [ws['A1'], ws['B1'].value],
-        [ws['A2'], ws['B2'].value],
-        [ws['A3'], ws['B3'].value],
-        [ws['A4'], ws['B4'].value],
-        [ws['A5'], ws['B5'].value]
-    ]
-
-
-def xls_update_boss_list(boss: int, damage: int):
-    # 对Boss sheet开始处理
-    ws = xlsHandle.wb['Boss']
-    HP = ws['B'+str(boss)].value
-
-    # 补时刀血量处理
-    if damage <= ws['B'+str(boss)].value:
-        ws['B'+str(boss)].value = max(0, HP - damage)
-    else:
-        remain = damage - HP
-        ws['B'+str(boss)].value = 0
-        ws['B'+str((boss % 5) + 1)].value -= remain
-
-
-def xls_restore_boss_list():
-    # 每周回打完后刷新全部Boss血量数据
-    ws = xlsHandle.wb['Boss']
-    ws['B1'] = 6000000
-    ws['B2'] = 8000000
-    ws['B3'] = 10000000
-    ws['B4'] = 12000000
-    ws['B5'] = 20000000
