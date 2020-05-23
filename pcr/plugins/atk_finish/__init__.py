@@ -7,6 +7,7 @@ from .commit_atk_damage import commit_atk_damage
 async def atk_finish(session: CommandSession):
     damage = session.get('damage', prompt='请输入您的原始伤害（不是分数）：')
 
+    # 伤害数据是否成功上传
     isDamageAppend = await commit_atk_damage(session.event.sender, damage)
 
     if isDamageAppend:
@@ -29,5 +30,5 @@ async def _(session: CommandSession):
     if not arg or int(arg) < 1:
         session.pause('填写的伤害为空或不符合规格，请重新填写！')
 
-        # 若当前正在询问更多信息，且新输入的信息有效，则放入会话状态
+    # 若当前正在询问更多信息，且新输入的信息有效，则放入会话状态
     session.state[session.current_key] = arg

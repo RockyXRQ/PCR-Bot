@@ -8,6 +8,7 @@ async def save_tree(session: CommandSession):
     team_info = session.get(
         'team_info', prompt='请再次确认阵容输入正确，并输入您的救树队伍阵容（队伍各成员名称请以空格隔开）:')
 
+    # 救树申请是否成功 并 获得当前救树名单
     isSaveCan, save_tree_list = await commit_save_tree(session.event.sender, team_info)
 
     if isSaveCan:
@@ -22,10 +23,12 @@ async def _(session: CommandSession):
     arg = session.current_arg_text.strip()
 
     if session.is_first_run:
+        # 所输入队伍信息不为空且符合队伍格式
         if arg and team_check(arg):
             session.state['team_info'] = arg
         return
 
+    # 填写的阵容名单为空或不符合队伍格式
     if (not arg) or (not team_check(arg)):
         session.pause('填写的阵容名单为空或不符合规格，请重新填写！')
     session.state[session.current_key] = arg
@@ -33,4 +36,5 @@ async def _(session: CommandSession):
 
 def team_check(team_info: str):
     arg = team_info.split()
+    # 要求有5个成员 并且 不能有重复成员
     return len(arg) == 5 and len((list(set(arg)))) == len(arg)

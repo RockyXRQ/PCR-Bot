@@ -7,11 +7,12 @@ from .commit_apply_change import commit_global_atking_state
 async def atk_apply(session: CommandSession):
     # 从会话状态中（session.state）中获取申请出战的阵容，如果使用命令时未给出阵容，
     # 将会进一步追问，否则无法申请出战
-    team_info = session.get('team_info', prompt='请再次确认阵容输入正确，并输入您的出刀队伍阵容（队伍各成员名称请以空格隔开）:')
-    # 获取出战队伍信息是否被成功上传
-    is_atk_append_success, atking_list = await commit_global_atking_state(session.event.sender, team_info)
+    team_info = session.get(
+        'team_info', prompt='请再次确认阵容输入正确，并输入您的出刀队伍阵容（队伍各成员名称请以空格隔开）:')
+    # 取出战队伍信息是否被成功上传 并 获得当前的出刀列表
+    isAtkAppend, atking_list = await commit_global_atking_state(session.event.sender, team_info)
     # 若列表被成功添加，则向用户反馈当前情况
-    if is_atk_append_success:
+    if isAtkAppend:
         await session.send('出刀申请成功！\n您的出刀阵容为：\n' + str(team_info) + '\n当前攻打中人员名单为：\n' + str(list(atking_list)))
     else:
         await session.send('出刀申请失败！当前有人救树中！请稍后申请！')

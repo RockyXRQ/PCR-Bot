@@ -5,6 +5,8 @@ from .commit_on_tree import commit_on_tree
 
 @on_command('on_tree', aliases=('挂树', '已挂树', '申请挂树', '会长！我挂树了！'))
 async def on_tree(session: CommandSession):
+
+    # 挂树申请是否成功 且 获得挂树列表
     isOnTree, on_tree_list = await commit_on_tree(session.event.sender)
 
     if isOnTree:

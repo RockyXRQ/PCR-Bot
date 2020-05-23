@@ -1,0 +1,6 @@
+[RockyQº] sheet新建
+[RockyQº] 加入攻打者名单
+[RockyQº] Boss血量更新
+[RockyQº] 于攻打者名单中除名
+[RockyQº] 更新程序内boss血量
+[RockyQº] 加入攻打者名单

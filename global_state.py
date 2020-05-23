@@ -4,13 +4,13 @@ import datetime
 
 
 class GlobalState:
-    atking_list = {}
-    on_tree_list = []
-    save_tree_list = []
-    boss_list = xlsHandle.xls_get_boss_list()
-    current_day = 1
-    current_boss = 1
-    point_rate_list = (1.0, 1.0, 1.1, 1.1, 1.2, 1.2, 1.2, 1.5, 1.7, 2.0)
+    atking_list = {}  # 当前攻打中列表
+    on_tree_list = []  # 当前挂树列表
+    save_tree_list = [] # 当前救树列表
+    boss_list = xlsHandle.xls_get_boss_list() # 当前 Boss 列表及血量信息
+    current_day = 1 # 当前工会战进行天数
+    current_boss = 1 # 当前被攻击Boss位序
+    point_rate_list = (1.0, 1.0, 1.1, 1.1, 1.2, 1.2, 1.2, 1.5, 1.7, 2.0) # 分数倍率
 
 
 def team_info_append(user_id: int, user_nickname: str, team_info: str):
@@ -22,22 +22,18 @@ def team_info_append(user_id: int, user_nickname: str, team_info: str):
         # 如果 用户 是第一次申请，则新建他的 sheet
         if user_nickname not in xlsHandle.xls_get_sheets():
             xlsHandle.xls_create_user(user_nickname)
-
             # sheet 新建 log加入
-            with open('pcr_log.txt', 'a', encoding='utf-8') as log:
-                log.write('[' + user_nickname + ']'+' sheet新建\n')
+            log_append('pcr_log.txt', user_nickname, 'sheet新建')
 
         GlobalState.atking_list[(user_id, user_nickname)] = [
             team_info, GlobalState.current_boss]
 
         # 加入攻打者名单 log 加入
-        with open('pcr_log.txt', 'a', encoding='utf-8') as log:
-            log.write('[' + user_nickname + ']'+' 加入攻打者名单\n')
+        log_append('pcr_log.txt', user_nickname, '加入攻打者名单')
 
         return True
     else:
-        with open('pcr_log.txt', 'a', encoding='utf-8') as log:
-            log.write('[' + user_nickname + ']'+'因有人救树申请失败\n')
+        log_append('pcr_log.txt', user_nickname, '因有人救树申请失败')
         return False
 
 
@@ -53,23 +49,19 @@ def damage_append(user_id: int, user_nickname: str, damage: int):
         # 如果位于挂树列表中，则去掉其名字
         if key in GlobalState.on_tree_list:
             GlobalState.on_tree_list.remove(key)
-            with open('pcr_log.txt', 'a', encoding='utf-8') as log:
-                log.write('[' + user_nickname + ']'+' 于挂树名单中去除\n')
-
+            log_append('pcr_log.txt', user_nickname, '于挂树名单中去除')
+        
         # 更新 boss 血量
         xlsHandle.xls_update_boss_list(
             (GlobalState.atking_list[key][1]-1) % 5 + 1, damage)
-        with open('pcr_log.txt', 'a', encoding='utf-8') as log:
-            log.write('[' + user_nickname + ']'+' Boss血量更新\n')
-
+        log_append('pcr_log.txt', user_nickname, 'Boss血量更新')
+        
         # 如果用户伤害大于当前boss剩余血量且其攻打的boss正是当前boss
         if damage >= GlobalState.boss_list[GlobalState.atking_list[key][1] - 1 % 5][1] \
                 and GlobalState.atking_list[key][1] == GlobalState.current_boss:
             boss_update()
             isKill = True
-            with open('pcr_log.txt', 'a', encoding='utf-8') as log:
-                log.write('[' + user_nickname + ']'+' 完成击杀\n')
-
+            log_append('pcr_log.txt', user_nickname, '完成击杀')
         # 在记录分数前先进行包括补时刀机制的分数计算
         HP = GlobalState.boss_list[GlobalState.atking_list[key][1] % 5 - 1][1]
 
@@ -100,18 +92,13 @@ def damage_append(user_id: int, user_nickname: str, damage: int):
 
         # 在攻打者名单中去除该用户
         GlobalState.atking_list.pop(key, 0)
-        with open('pcr_log.txt', 'a', encoding='utf-8') as log:
-            log.write('[' + user_nickname + ']'+' 于攻打者名单中除名\n')
-
+        log_append('pcr_log.txt', user_nickname, '于攻打者名单中除名')
         # 更新程序内的Boss血量
         GlobalState.boss_list = xlsHandle.xls_get_boss_list()
-        with open('pcr_log.txt', 'a', encoding='utf-8') as log:
-            log.write('[' + user_nickname + ']'+' 更新程序内boss血量\n')
-
+        log_append('pcr_log.txt', user_nickname, '更新程序内boss血量')
         return True
     else:
-        with open('pcr_log.txt', 'a', encoding='utf-8') as log:
-            log.write('[' + user_nickname + ']'+'因之前未申请出刀而完成失败\n')
+        log_append('pcr_log.txt', user_nickname, '因之前未申请出刀而完成失败')
         return False
 
 
@@ -125,12 +112,10 @@ def on_tree_append(user_id: int, user_nickname: str):
         GlobalState.on_tree_list.append(key)
         # 该用户 救树次数 加1
         xlsHandle.xls_on_tree(key[1])
-        with open('pcr_log.txt', 'a', encoding='utf-8') as log:
-            log.write('[' + user_nickname + ']'+' 挂树\n')
+        log_append('pcr_log.txt', user_nickname, '挂树')
         return True
     else:
-        with open('pcr_log.txt', 'a', encoding='utf-8') as log:
-            log.write('[' + user_nickname + ']'+' 申请挂树失败\n')
+        log_append('pcr_log.txt', user_nickname, '申请挂树失败')
         return False
 
 
@@ -147,12 +132,10 @@ def save_tree_append(user_id: int, user_nickname: str, team_info: str):
         GlobalState.save_tree_list.append(key)
         # 该用户 救树次数 加1
         xlsHandle.xls_save_tree(key[1])
-        with open('pcr_log.txt', 'a', encoding='utf-8') as log:
-            log.write('[' + user_nickname + ']'+' 救树\n')
+        log_append('pcr_log.txt', user_nickname, '救树')
         return True
     else:
-        with open('pcr_log.txt', 'a', encoding='utf-8') as log:
-            log.write('[' + user_nickname + ']'+' 申请救树失败\n')
+        log_append('pcr_log.txt', user_nickname, '申请救树失败')
         return False
 
 
@@ -187,3 +170,8 @@ def boss_update():
     GlobalState.current_boss += 1
     if (GlobalState.current_boss - 1) % 5 == 0 and GlobalState % 5 == 1:
         xlsHandle.xls_restore_boss_list()
+
+
+def log_append(filename: str, user_nickname: str, info: str):
+    with open(filename, 'a', encoding='utf-8') as log:
+        log.write('[' + user_nickname + '] '+info+'\n')
