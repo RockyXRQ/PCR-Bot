@@ -195,7 +195,7 @@ PCR_Ro_Bot自带数据记录，整理，与导出的功能，机器人运行之�
 
 程序默认调用项目根目录下的PCR_Bot_Template.xlsx文件，并将信息记录在其中。
 
-> 注意：程序目前只支持处理 PCR_Bot_Template.xlsx 文件中的表格格式，请不要擅自修改本文件，在本项目的 /assets目录下存有一份额外的 PCR_Bot_Template.xlsx文件，请在需要时复制至根目录。
+> 注意：程序目前只支持处理 PCR_Bot_Template.xlsx 文件中的表格格式，请不要擅自修改本文件，在本项目的 /docs目录下存有一份额外的 PCR_Bot_Template.xlsx文件，请在需要时复制至根目录。
 
 您可以通过查看这份文件，来实时查看数据的记录情况。
 
@@ -203,7 +203,7 @@ PCR_Ro_Bot自带数据记录，整理，与导出的功能，机器人运行之�
 
 ### 日志
 
-该机器人拥有日志系统，机器人运行之后，您可以在程序根目录下 pcr_log.txt 文件，并通过其查看日志，监控机器人的运行情况。
+该机器人拥有日志系统，机器人运行之后，您可以在程序 /logs 目录下 pcr_log.txt 文件，并通过其查看日志，监控机器人的运行情况。
 
 ![log](https://raw.githubusercontent.com/RockyXRQ/PCR_Ro_Bot/master/assets/log.png?token=AIKEPB6ESEJ2DPI5VYWEMEK6YZDSK)
 

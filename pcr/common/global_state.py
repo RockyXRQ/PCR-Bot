@@ -144,4 +144,5 @@ def time_update(start_day):
 
 def log_append(filename: str, user_nickname: str, info: str):
     with open(filename, 'a', encoding='utf-8') as log:
-        log.write('[' + user_nickname + '] '+info+'\n')
+        log.write(str(datetime.datetime.now()) +
+                  ' [' + user_nickname + '] '+info+'\n')
