@@ -1,6 +1,6 @@
 from nonebot import on_command, CommandSession
 
-import global_state as GlobalState
+import pcr.common.global_state as GlobalState
 
 
 @on_command('get_list', aliases=('查看', '查看情况', '获取情况'))

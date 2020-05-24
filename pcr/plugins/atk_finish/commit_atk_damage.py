@@ -1,4 +1,4 @@
-import global_state as GlobalState
+import pcr.common.global_state as GlobalState
 
 
 async def commit_atk_damage(user: object, damage: int):

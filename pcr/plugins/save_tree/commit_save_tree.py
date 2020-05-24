@@ -1,4 +1,4 @@
-import global_state as GlobalState
+import pcr.common.global_state as GlobalState
 
 
 async def commit_save_tree(user: object, team_info: str):

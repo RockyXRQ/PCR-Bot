@@ -1,6 +1,9 @@
 from nonebot.default_config import *
+import json
 
-SUPERUSERS = {1315930212}
+setting = open('Settings.json', encoding='utf-8')
+setting = json.load(setting)
+
 COMMAND_START = {'', '/', '!', '／', '！'}
-HOST = '127.0.0.1'
-PORT = 8080
+HOST = setting['HOST']
+PORT = setting['PORT']

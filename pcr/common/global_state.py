@@ -1,4 +1,4 @@
-import common.xls_handle as xlsHandle
+import pcr.common.xls_handle as xlsHandle
 
 import datetime
 
@@ -21,17 +21,17 @@ def team_info_append(user_id: int, user_nickname: str, team_info: str):
         if user_nickname not in xlsHandle.xls_get_sheets():
             xlsHandle.xls_create_user(user_nickname)
             # sheet 新建 log加入
-            log_append('pcr_log.txt', user_nickname, 'sheet新建')
+            log_append('./logs/pcr_log.txt', user_nickname, 'sheet新建')
 
         GlobalState.atking_list[(user_id, user_nickname)] = [
             team_info, GlobalState.current_boss]
 
         # 加入攻打者名单 log 加入
-        log_append('pcr_log.txt', user_nickname, '加入攻打者名单')
+        log_append('./logs/pcr_log.txt', user_nickname, '加入攻打者名单')
 
         return True
     else:
-        log_append('pcr_log.txt', user_nickname, '因有人救树申请失败')
+        log_append('./logs/pcr_log.txt', user_nickname, '因有人救树申请失败')
         return False
 
 
@@ -48,7 +48,7 @@ def damage_append(user_id: int, user_nickname: str, damage: int):
         # 如果位于挂树列表中，则去掉其名字
         if key in GlobalState.on_tree_list:
             GlobalState.on_tree_list.remove(key)
-            log_append('pcr_log.txt', user_nickname, '于挂树名单中去除')
+            log_append('./logs/pcr_log.txt', user_nickname, '于挂树名单中去除')
 
         isKill = xlsHandle.xls_damage_append(
             user_nickname,
@@ -72,10 +72,10 @@ def damage_append(user_id: int, user_nickname: str, damage: int):
 
         # 在攻打者名单中去除该用户
         GlobalState.atking_list.pop(key, 0)
-        log_append('pcr_log.txt', user_nickname, '于攻打者名单中除名')
+        log_append('./logs/pcr_log.txt', user_nickname, '于攻打者名单中除名')
         return True
     else:
-        log_append('pcr_log.txt', user_nickname, '因之前未申请出刀而完成失败')
+        log_append('./logs/pcr_log.txt', user_nickname, '因之前未申请出刀而完成失败')
         return False
 
 
@@ -89,10 +89,10 @@ def on_tree_append(user_id: int, user_nickname: str):
         GlobalState.on_tree_list.append(key)
         # 该用户 救树次数 加1
         xlsHandle.xls_on_tree(key[1])
-        log_append('pcr_log.txt', user_nickname, '挂树')
+        log_append('./logs/pcr_log.txt', user_nickname, '挂树')
         return True
     else:
-        log_append('pcr_log.txt', user_nickname, '申请挂树失败')
+        log_append('./logs/pcr_log.txt', user_nickname, '申请挂树失败')
         return False
 
 
@@ -109,10 +109,10 @@ def save_tree_append(user_id: int, user_nickname: str, team_info: str):
         GlobalState.save_tree_list.append(key)
         # 该用户 救树次数 加1
         xlsHandle.xls_save_tree(key[1])
-        log_append('pcr_log.txt', user_nickname, '救树')
+        log_append('./logs/pcr_log.txt', user_nickname, '救树')
         return True
     else:
-        log_append('pcr_log.txt', user_nickname, '申请救树失败')
+        log_append('./logs/pcr_log.txt', user_nickname, '申请救树失败')
         return False
 
 
