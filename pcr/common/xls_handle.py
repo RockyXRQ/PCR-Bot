@@ -42,18 +42,12 @@ def xls_damage_append(user_nickname: str, team_info: str, damage: int, day: int,
         else:
             # 击杀状态为真
             isKill = True
-
             # 计算得分
-            remain = damage - ws_boss['B'+str(boss)].value
-
-            pointA = ws_boss['B'+str(boss)].value * \
+            point = ws_boss['B'+str(boss)].value * \
                 ws_boss['C'+str(boss)].value
-            pointB = remain * ws_boss['C'+str(boss+1)].value
-            point = pointA + pointB
 
             # 更新Boss血量
             ws_boss['B'+str(boss)].value = 0
-            ws_boss['B'+str((boss+1))].value -= remain
         # 更新用户数据
         ws_user.cell(damage_row, 2+day).value = point
         # 若击杀则数据为红
