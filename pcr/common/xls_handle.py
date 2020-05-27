@@ -49,7 +49,10 @@ def xls_damage_append(user_nickname: str, team_info: str, damage: int, day: int,
             # 更新Boss血量
             ws_boss['B'+str(boss)].value = 0
         # 更新用户数据
-        ws_user.cell(damage_row, 2+day).value += point
+        if ws_user.cell(damage_row, 2+day).value:
+            ws_user.cell(damage_row, 2+day).value += point
+        else:
+            ws_user.cell(damage_row, 2+day).value = point
         # 若击杀则数据为红
         if isKill:
             ws_user.cell(damage_row, 2+day).font = Font(color=colors.RED)
