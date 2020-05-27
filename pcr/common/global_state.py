@@ -1,6 +1,10 @@
 import pcr.common.xls_handle as xlsHandle
 
 import datetime
+import json
+
+settings = open('Settings.json', encoding='utf-8')
+settings = json.load(settings)
 
 
 class GlobalState:
@@ -13,7 +17,8 @@ class GlobalState:
 
 def team_info_append(user_id: int, user_nickname: str, team_info: str):
     # 每一次收到申请都做一次时间的检查更新
-    GlobalState.current_day = time_update(datetime.datetime(2020, 5, 20, 5))
+    GlobalState.current_day = time_update(datetime.datetime(
+        settings['START_YEAR'], settings['START_MONTH'], settings['START_DAY'], 5))
 
     # 如果当前无人救树
     if not GlobalState.save_tree_list:
