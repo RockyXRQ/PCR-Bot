@@ -11,11 +11,15 @@ class GlobalState:
     atking_list = {}  # 当前攻打中列表
     on_tree_list = []  # 当前挂树列表
     save_tree_list = []  # 当前救树列表
+    act_list = {}  # 代理人员名单
     current_day = 1  # 当前工会战进行天数
     current_boss = 1  # 当前被攻击Boss位序
 
 
 def team_info_append(user_id: int, user_nickname: str, team_info: str):
+    if user_nickname in GlobalState.act_list.keys():
+        user_nickname = GlobalState.act_list[user_nickname]
+
     # 每一次收到申请都做一次时间的检查更新
     GlobalState.current_day = time_update(datetime.datetime(
         settings['START_YEAR'], settings['START_MONTH'], settings['START_DAY'], 5))
@@ -28,7 +32,7 @@ def team_info_append(user_id: int, user_nickname: str, team_info: str):
             # sheet 新建 log加入
             log_append('./logs/pcr_log.txt', user_nickname, 'sheet新建')
 
-        GlobalState.atking_list[(user_id, user_nickname)] = [
+        GlobalState.atking_list[user_nickname] = [
             team_info, GlobalState.current_boss]
 
         # 加入攻打者名单 log 加入
@@ -41,8 +45,10 @@ def team_info_append(user_id: int, user_nickname: str, team_info: str):
 
 
 def damage_append(user_id: int, user_nickname: str, damage: int):
+    if user_nickname in GlobalState.act_list.keys():
+        user_nickname = GlobalState.act_list[user_nickname]
 
-    key = (user_id, user_nickname)
+    key = user_nickname
     isKill = False
     damage = int(damage)
 
@@ -77,7 +83,8 @@ def damage_append(user_id: int, user_nickname: str, damage: int):
 
         # 在攻打者名单中去除该用户
         GlobalState.atking_list.pop(key, 0)
-        log_append('./logs/pcr_log.txt', user_nickname, '于攻打者名单中除名 '+'伤害为:'+str(damage))
+        log_append('./logs/pcr_log.txt', user_nickname,
+                   '于攻打者名单中除名 '+'伤害为:'+str(damage))
         return True
     else:
         log_append('./logs/pcr_log.txt', user_nickname, '因之前未申请出刀而完成失败')
@@ -85,7 +92,10 @@ def damage_append(user_id: int, user_nickname: str, damage: int):
 
 
 def on_tree_append(user_id: int, user_nickname: str):
-    key = (user_id, user_nickname)
+    if user_nickname in GlobalState.act_list.keys():
+        user_nickname = GlobalState.act_list[user_nickname]
+
+    key = user_nickname
 
     # 如果用户位于攻打者名单中 且 没有挂树
     if GlobalState.atking_list.get(key, -1) != -1 \
@@ -93,7 +103,7 @@ def on_tree_append(user_id: int, user_nickname: str):
         # 在救树名单中加入用户
         GlobalState.on_tree_list.append(key)
         # 该用户 救树次数 加1
-        xlsHandle.xls_on_tree(key[1])
+        xlsHandle.xls_on_tree(key)
         log_append('./logs/pcr_log.txt', user_nickname, '挂树')
         return True
     else:
@@ -102,7 +112,10 @@ def on_tree_append(user_id: int, user_nickname: str):
 
 
 def save_tree_append(user_id: int, user_nickname: str, team_info: str):
-    key = (user_id, user_nickname)
+    if user_nickname in GlobalState.act_list.keys():
+        user_nickname = GlobalState.act_list[user_nickname]
+
+    key = user_nickname
 
     # 如果挂树名单不为空 且 用户不在挂树名单中 且 用户不在救树名单中
     if GlobalState.on_tree_list \
@@ -113,7 +126,7 @@ def save_tree_append(user_id: int, user_nickname: str, team_info: str):
         GlobalState.atking_list[key] = [team_info, GlobalState.current_boss]
         GlobalState.save_tree_list.append(key)
         # 该用户 救树次数 加1
-        xlsHandle.xls_save_tree(key[1])
+        xlsHandle.xls_save_tree(key)
         log_append('./logs/pcr_log.txt', user_nickname, '救树')
         return True
     else:
@@ -121,16 +134,33 @@ def save_tree_append(user_id: int, user_nickname: str, team_info: str):
         return False
 
 
+def act_append(user_nickname: str, act_user_nickname: str):
+    GlobalState.act_list[user_nickname] = act_user_nickname
+    return True
+
+
+def act_cancel(user_nickname: str):
+    if user_nickname in GlobalState.act_list.keys():
+        GlobalState.act_list.pop(user_nickname, 0)
+        return True
+    else:
+        return False
+
+
 def get_current_atking_list():
-    return get_names_list(GlobalState.atking_list.keys())
+    return list(GlobalState.atking_list.keys())
 
 
 def get_current_on_tree_list():
-    return get_names_list(GlobalState.on_tree_list)
+    return GlobalState.on_tree_list
 
 
 def get_current_save_tree_list():
-    return get_names_list(GlobalState.save_tree_list)
+    return GlobalState.save_tree_list
+
+
+def get_current_act_list():
+    return GlobalState.act_list
 
 
 def get_names_list(ps: list):
