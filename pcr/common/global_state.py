@@ -48,7 +48,7 @@ def damage_append(user_id: int, user_nickname: str, damage: int):
 
     # 如果 用户 之前申请过 出刀
     if GlobalState.atking_list.get(key, -1) != -1 and \
-            (not GlobalState.save_tree_list or key in GlobalState.save_tree_list):
+            (not GlobalState.save_tree_list or (key in GlobalState.save_tree_list)):
 
         # 如果位于挂树列表中，则去掉其名字
         if key in GlobalState.on_tree_list:
@@ -77,7 +77,7 @@ def damage_append(user_id: int, user_nickname: str, damage: int):
 
         # 在攻打者名单中去除该用户
         GlobalState.atking_list.pop(key, 0)
-        log_append('./logs/pcr_log.txt', user_nickname, '于攻打者名单中除名')
+        log_append('./logs/pcr_log.txt', user_nickname, '于攻打者名单中除名 '+'伤害为:'+str(damage))
         return True
     else:
         log_append('./logs/pcr_log.txt', user_nickname, '因之前未申请出刀而完成失败')

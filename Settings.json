@@ -1,7 +1,7 @@
 {
     "START_YEAR":2020,
     "START_MONTH":5,
-    "START_DAY":27,
+    "START_DAY":30,
     "HOST":"127.0.0.1",
     "PORT":8080
 }

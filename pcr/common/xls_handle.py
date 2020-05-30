@@ -21,6 +21,7 @@ def xls_create_user(user_nickname: str):
 
 
 def xls_damage_append(user_nickname: str, team_info: str, damage: int, day: int, boss: int):
+    # 通过判断队伍构成是否相同判断补时刀
     def isSameTeam(orgTeam:str):
         if orgTeam:
             return set(team_info.split()) == set(str(orgTeam).split())
