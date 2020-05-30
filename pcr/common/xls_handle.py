@@ -21,6 +21,13 @@ def xls_create_user(user_nickname: str):
 
 
 def xls_damage_append(user_nickname: str, team_info: str, damage: int, day: int, boss: int):
+    def isSameTeam(orgTeam:str):
+        if orgTeam:
+            return set(team_info.split()) == set(str(orgTeam).split())
+        else:
+            return False
+
+
     ws_boss = xlsHandle.wb['Boss']
     ws_user = xlsHandle.wb[user_nickname]
 
@@ -49,7 +56,7 @@ def xls_damage_append(user_nickname: str, team_info: str, damage: int, day: int,
             # 更新Boss血量
             ws_boss['B'+str(boss)].value = 0
         # 更新用户数据
-        if ws_user.cell(damage_row, 2+day).value:
+        if ws_user.cell(damage_row, 2+day).value :
             ws_user.cell(damage_row, 2+day).value += point
         else:
             ws_user.cell(damage_row, 2+day).value = point
@@ -65,9 +72,9 @@ def xls_damage_append(user_nickname: str, team_info: str, damage: int, day: int,
     ws = xlsHandle.wb[user_nickname]
 
     # 依次查看第一、二、三刀否存在数据 没有则填入
-    if not ws_user.cell(4, 2+day).value:
+    if (not ws_user.cell(4, 2+day).value) or isSameTeam(ws_user.cell(4, 2+day).value):
         return inner_damage_append(4, 5)
-    elif not ws.cell(6, 2+day).value:
+    elif (not ws.cell(6, 2+day).value) or isSameTeam(ws.cell(6, 2+day).value):
         return inner_damage_append(6, 7)
     else:
         return inner_damage_append(8, 9)
