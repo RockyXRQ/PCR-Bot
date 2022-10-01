@@ -62,7 +62,7 @@ PCR_Ro_Bot 是一个基于，酷Q，Nonebot，CQHTTP，和OpenPyXL制作的QQ机
 
 NoneBot是一个基于酷Q的Python异步机器人框架，是本仓库机器人的主体框架。
 
-- [NoneBot官网](https://nonebot.cqp.moe/)
+- [NoneBot官网](https://nb2.baka.icu/)
 
 在安装好Python之后，请打开CMD窗口并直接输入:
 
